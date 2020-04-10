@@ -38,7 +38,15 @@ const covid19ImpactEstimator = (data) => {
     (obj.severeCasesByRequestedTime = 0.15 * obj.infectionsByRequestedTime);
   let bedMixin = (obj) =>
     (obj.hospitalBedsByRequestedTime = capacity * obj.totalHospitalBeds);
-    bedMixin(data);
+  let ICUMixin = (obj) =>
+    (obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime);
+    
+  let ACMixin = (obj) =>
+    (obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime);
+    
+  let ACMixin = (obj) =>
+    (obj.dollarsInFlight = obj.infectionsByRequestedTime * obj.region.avgDailyIncomePopulation * obj.region.avgDailyIncomeInUSD * obj.timeToElapse);
+    
     obj.hospitalBedsByRequestedTime>0?obj.hospitalBedsByRequestedTime:-1*obj.severeCasesByRequestedTime;
 };
 
