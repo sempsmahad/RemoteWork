@@ -19,21 +19,27 @@ const covid19ImpactEstimator = (data) => {
     severeImpact: {} // your severe case estimation
   };
 
-  if (data.periodType === "months")data.timeToElapse *= 30
-  if (data.periodType === "weeks")data.timeToElapse *= 7
-  let severeImpact ={}
-  let impact ={}
-  impact.currentlyInfected = data.reportedCases*10
-  severeImpact.currentlyInfected = data.reportedCases * 50
-  let factor = Math.floor(data.timeToElapse/3);
+  if (data.periodType === 'months') data.timeToElapse *= 30;
+  if (data.periodType === 'weeks') data.timeToElapse *= 7;
+  let severeImpact = {};
+  let impact = {};
+  let estimation = {};
+  let capacity = 0.35;
+  impact.currentlyInfected = data.reportedCases * 10;
+  severeImpact.currentlyInfected = data.reportedCases * 50;
+  let factor = Math.floor(data.timeToElapse / 3);
 
-  
-  let infectMixin = obj=>{
-    obj.infectionsByRequestedTime = obj.currentlyInfected *(2**factor);
-  }
+  let infectMixin = (obj) =>
+    (obj.infectionsByRequestedTime = obj.currentlyInfected * 2 ** factor);
   infectMixin(impact);
   infectMixin(severeImpact);
 
+  let severeMixin = (obj) =>
+    (obj.severeCasesByRequestedTime = 0.15 * obj.infectionsByRequestedTime);
+  let bedMixin = (obj) =>
+    (obj.hospitalBedsByRequestedTime = capacity * obj.totalHospitalBeds);
+    bedMixin(data);
+    obj.hospitalBedsByRequestedTime>0?obj.hospitalBedsByRequestedTime:-1*obj.severeCasesByRequestedTime;
 };
 
 export default covid19ImpactEstimator;
