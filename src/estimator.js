@@ -45,14 +45,16 @@ const covid19ImpactEstimator = (data) => {
   bedMixin(severeImpact);
 
   const ICUMixin = (obj) => {
-    obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime;
+    const number = 0.05 * obj.infectionsByRequestedTime;
+    obj.casesForICUByRequestedTime = Math.trunc((number * 100) / 100);
     return false;
   };
   ICUMixin(impact);
   ICUMixin(severeImpact);
 
   const ACMixin = (obj) => {
-    obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime;
+    const number = 0.02 * obj.infectionsByRequestedTime;
+    obj.casesForVentilatorsByRequestedTime = Math.trunc((number * 100) / 100);
     return false;
   };
   ACMixin(impact);
