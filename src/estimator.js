@@ -30,15 +30,15 @@ const covid19ImpactEstimator = (data) => {
   let ACMixin = (obj) =>
     (obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime);
     
-  let ACMixin = (obj) =>
+  let AC2Mixin = (obj) =>
     (obj.dollarsInFlight = obj.infectionsByRequestedTime * obj.region.avgDailyIncomePopulation * obj.region.avgDailyIncomeInUSD * obj.timeToElapse);
     
     obj.hospitalBedsByRequestedTime>0?obj.hospitalBedsByRequestedTime:-1*obj.severeCasesByRequestedTime;
 
     return {
-      data: {}, 
-      impact: {}, 
-      severeImpact: {} 
+      data, 
+      impact, 
+      severeImpact 
     };
 };
 
