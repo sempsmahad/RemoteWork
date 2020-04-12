@@ -12,7 +12,8 @@ const covid19ImpactEstimator = (data) => {
   currentMixim(impact);
 
   const severeCurrentMixim = (obj) => {
-    obj.currentlyInfected = () => data.reportedCases * 50;
+    obj.currentlyInfected = data.reportedCases * 50;
+    return false;
   };
 
   severeCurrentMixim(severeImpact);
@@ -20,7 +21,8 @@ const covid19ImpactEstimator = (data) => {
   const factor = Math.floor(data.timeToElapse / 3);
 
   const infectMixin = (obj) => {
-    obj.infectionsByRequestedTime = () => obj.currentlyInfected * 2 ** factor;
+    obj.infectionsByRequestedTime = obj.currentlyInfected * 2 ** factor;
+    return false;
   };
 
   infectMixin(impact);
