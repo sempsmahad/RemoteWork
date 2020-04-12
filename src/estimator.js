@@ -64,7 +64,6 @@ const covid19ImpactEstimator = (data) => {
       * data.region.avgDailyIncomePopulation
       * data.region.avgDailyIncomeInUSD)
       / data.timeToElapse);
-    return false;
   };
   AC2Mixin(impact);
   AC2Mixin(severeImpact);
