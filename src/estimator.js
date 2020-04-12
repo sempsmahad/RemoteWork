@@ -36,9 +36,8 @@ const covid19ImpactEstimator = (data) => {
   severeMixin(severeImpact);
 
   const bedMixin = (obj) => {
-    obj.hospitalBedsByRequestedTime = capacity * data.totalHospitalBeds > 0
-      ? capacity * data.totalHospitalBeds
-      : -1 * obj.severeCasesByRequestedTime;
+    obj.hospitalBedsByRequestedTime = capacity
+    * data.totalHospitalBeds - obj.severeCasesByRequestedTime;
   };
   bedMixin(impact);
   bedMixin(severeImpact);
