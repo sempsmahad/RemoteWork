@@ -21,7 +21,7 @@ const covid19ImpactEstimator = (data) => {
   const factor = Math.floor(data.timeToElapse / 3);
 
   const infectMixin = (obj) => {
-    obj.infectionsByRequestedTime = obj.currentlyInfected * 2 ** factor;
+    obj.infectionsByRequestedTime = Math.trunc(((obj.currentlyInfected * 2 ** factor) * 100) / 100);
     return false;
   };
 
@@ -64,7 +64,7 @@ const covid19ImpactEstimator = (data) => {
     * data.region.avgDailyIncomeInUSD
     * data.timeToElapse;
     const number = Math.trunc((numbe * 100) / 100);
-    obj.dollarsInFlight = Math.trunc((number * 100) / 100);
+    obj.dollarsInFlight = number;
   };
   AC2Mixin(impact);
   AC2Mixin(severeImpact);
