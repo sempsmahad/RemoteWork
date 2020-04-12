@@ -40,6 +40,7 @@ const covid19ImpactEstimator = (data) => {
     * data.totalHospitalBeds - obj.severeCasesByRequestedTime;
     const number = Math.trunc((num * 100) / 100);
     obj.hospitalBedsByRequestedTime = number;
+    return false;
   };
   bedMixin(impact);
   bedMixin(severeImpact);
@@ -64,8 +65,9 @@ const covid19ImpactEstimator = (data) => {
     * data.region.avgDailyIncomePopulation
     * data.region.avgDailyIncomeInUSD
     * data.timeToElapse;
-    const number = Math.trunc((numbe * 100) / 100);
-    data.dollarsInFlight = number;
+    const numbr = Math.trunc((numbe * 100) / 100);
+    obj.dollarsInFlight = numbr;
+    return false;
   };
   AC2Mixin(impact);
   AC2Mixin(severeImpact);
