@@ -44,18 +44,28 @@ const covid19ImpactEstimator = (data) => {
   bedMixin(impact);
   bedMixin(severeImpact);
 
-  // const ICUMixin = (obj) => {
-  //   obj.casesForICUByRequestedTime = () => 0.05 * obj.infectionsByRequestedTime;
-  // };
-  // const ACMixin = (obj) => {
-  //   obj.casesForVentilatorsByRequestedTime = () => 0.02 * obj.infectionsByRequestedTime;
-  // };
-  // const AC2Mixin = (obj) => {
-  //   obj.dollarsInFlight = () => obj.infectionsByRequestedTime
-  //   * obj.region.avgDailyIncomePopulation
-  //   * obj.region.avgDailyIncomeInUSD
-  //   * obj.timeToElapse;
-  // };
+  const ICUMixin = (obj) => {
+    obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime;
+    return false;
+  };
+  ICUMixin(impact);
+  ICUMixin(severeImpact);
+
+  const ACMixin = (obj) => {
+    obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime;
+    return false;
+  };
+  ACMixin(impact);
+  ACMixin(severeImpact);
+
+  const AC2Mixin = (obj) => {
+    obj.dollarsInFlight = obj.infectionsByRequestedTime
+    * obj.region.avgDailyIncomePopulation
+    * obj.region.avgDailyIncomeInUSD
+    * obj.timeToElapse;
+  };
+  AC2Mixin(impact);
+  AC2Mixin(severeImpact);
 
 
   return {
