@@ -4,7 +4,7 @@ const covid19ImpactEstimator = (data) => {
   const severeImpact = {};
   const impact = {};
   // const estimation = {};
-  // const capacity = 0.35;
+  const capacity = 0.35;
 
   const currentMixim = (obj) => {
     obj.currentlyInfected = data.reportedCases * 10;
@@ -28,12 +28,22 @@ const covid19ImpactEstimator = (data) => {
   infectMixin(impact);
   infectMixin(severeImpact);
 
-  // const severeMixin = (obj) => {
-  //   obj.severeCasesByRequestedTime = () => 0.15 * obj.infectionsByRequestedTime;
-  // };
-  // const bedMixin = (obj) => {
-  //   obj.hospitalBedsByRequestedTime = () => capacity * obj.totalHospitalBeds;
-  // };
+  const severeMixin = (obj) => {
+    obj.severeCasesByRequestedTime = 0.15 * obj.infectionsByRequestedTime;
+    return false;
+  };
+  severeMixin(impact);
+  severeMixin(severeImpact);
+
+  const bedMixin = (obj) => {
+    obj.hospitalBedsByRequestedTime = capacity * obj.totalHospitalBeds;
+    return obj.hospitalBedsByRequestedTime > 0
+      ? obj.hospitalBedsByRequestedTime
+      : -1 * obj.severeCasesByRequestedTime;
+  };
+  bedMixin(impact);
+  bedMixin(severeImpact);
+
   // const ICUMixin = (obj) => {
   //   obj.casesForICUByRequestedTime = () => 0.05 * obj.infectionsByRequestedTime;
   // };
@@ -47,9 +57,6 @@ const covid19ImpactEstimator = (data) => {
   //   * obj.timeToElapse;
   // };
 
-  // obj.hospitalBedsByRequestedTime > 0
-  //   ? obj.hospitalBedsByRequestedTime
-  //   : -1 * obj.severeCasesByRequestedTime;
 
   return {
     data,
