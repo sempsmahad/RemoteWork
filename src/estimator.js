@@ -20,7 +20,7 @@ const covid19ImpactEstimator = (data) => {
   const factor = Math.trunc(data.timeToElapse / 3);
 
   const infectMixin = (obj) => {
-    obj.infectionsByRequestedTime = obj.currentlyInfected * 2 ** factor;
+    obj.infectionsByRequestedTime = obj.currentlyInfected * (2 ** factor);
     return false;
   };
 
@@ -35,9 +35,8 @@ const covid19ImpactEstimator = (data) => {
   severeMixin(severeImpact);
 
   const bedMixin = (obj) => {
-    const num = (capacity
-    * data.totalHospitalBeds) - obj.severeCasesByRequestedTime;
-    const number = Math.trunc((num * 100) / 100);
+    const number = Math.trunc(capacity
+      * data.totalHospitalBeds) - obj.severeCasesByRequestedTime;
     obj.hospitalBedsByRequestedTime = number;
     return false;
   };
