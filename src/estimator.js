@@ -51,7 +51,7 @@ const covid19ImpactEstimator = (data) => {
   // ICUMixin(impact);
   // ICUMixin(severeImpact);
   const ICUMixin = (obj) => {
-    obj.casesForVentilatorsByRequestedTime = Math.trunc(
+    obj.casesForICUByRequestedTime = Math.trunc(
       ((0.05 * obj.infectionsByRequestedTime) * 100) / 100
     );
     return false;
