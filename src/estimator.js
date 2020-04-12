@@ -58,14 +58,16 @@ const covid19ImpactEstimator = (data) => {
   ACMixin(impact);
   ACMixin(severeImpact);
 
-  const AC2Mixin = (obj) => {
-    obj.dollarsInFlight = Math.trunc((obj.infectionsByRequestedTime
-      * data.region.avgDailyIncomePopulation
-      * data.region.avgDailyIncomeInUSD)
-      / data.timeToElapse);
-  };
-  AC2Mixin(impact);
-  AC2Mixin(severeImpact);
+  impact.dollarsInFlight = Math.trunc((impact.infectionsByRequestedTime
+    * data.region.avgDailyIncomePopulation
+    * data.region.avgDailyIncomeInUSD)
+    / data.timeToElapse);
+
+  severeImpact.dollarsInFlight = Math.trunc((severeImpact.infectionsByRequestedTime
+    * data.region.avgDailyIncomePopulation
+    * data.region.avgDailyIncomeInUSD)
+    / data.timeToElapse);
+
 
   return {
     data,
