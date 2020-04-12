@@ -44,20 +44,13 @@ const covid19ImpactEstimator = (data) => {
   bedMixin(impact);
   bedMixin(severeImpact);
 
-  // const ICUMixin = (obj) => {
-  //   obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime;
-  //   return false;
-  // };
-  // ICUMixin(impact);
-  // ICUMixin(severeImpact);
   const ICUMixin = (obj) => {
-    obj.casesForICUByRequestedTime = Math.trunc(
-      ((0.05 * obj.infectionsByRequestedTime) * 100) / 100
-    );
+    obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime;
     return false;
   };
   ICUMixin(impact);
   ICUMixin(severeImpact);
+
 
   const ACMixin = (obj) => {
     obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime;
@@ -72,7 +65,7 @@ const covid19ImpactEstimator = (data) => {
     * data.region.avgDailyIncomeInUSD
     * data.timeToElapse;
     const number = Math.trunc((numbe * 100) / 100);
-    obj.dollarsInFlight = number;
+    data.dollarsInFlight = number;
   };
   AC2Mixin(impact);
   AC2Mixin(severeImpact);
