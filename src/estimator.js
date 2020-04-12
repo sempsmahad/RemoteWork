@@ -60,9 +60,9 @@ const covid19ImpactEstimator = (data) => {
 
   const AC2Mixin = (obj) => {
     obj.dollarsInFlight = obj.infectionsByRequestedTime
-    * obj.region.avgDailyIncomePopulation
-    * obj.region.avgDailyIncomeInUSD
-    * obj.timeToElapse;
+    * data.region.avgDailyIncomePopulation
+    * data.region.avgDailyIncomeInUSD
+    * data.timeToElapse;
   };
   AC2Mixin(impact);
   AC2Mixin(severeImpact);
