@@ -49,13 +49,10 @@ const covid19ImpactEstimator = (data) => {
   };
   sixthMixim(impact);
   sixthMixim(severeImpact);
-
   return {
-
-    data: {},
-    impact: {},
-    severeImpact: {}
-
+    data,
+    impact,
+    severeImpact
   };
 };
 export default covid19ImpactEstimator;
