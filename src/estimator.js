@@ -1,79 +1,53 @@
 const covid19ImpactEstimator = (data) => {
-  if (data.periodType === 'weeks') { data.timeToElapse *= 7; } else if (data.periodType === 'months') { data.timeToElapse *= 30; }
-  const severeImpact = {};
   const impact = {};
-  // const estimation = {};
-  const capacity = 0.35;
+  const severeImpact = {};
+  let days = data.timeToElapse;
+  if (data.periodType === 'weeks') days *= 7;
+  else if (data.periodType === 'months') days *= 30;
 
-  const currentMixim = (obj) => {
-    obj.currentlyInfected = data.reportedCases * 10;
-  };
-  currentMixim(impact);
+  const factor = Math.trunc(days / 3);
 
-  const severeCurrentMixim = (obj) => {
-    obj.currentlyInfected = data.reportedCases * 50;
-    return false;
-  };
+  impact.currentlyInfected = data.reportedCases * 10;
+  severeImpact.currentlyInfected = data.reportedCases * 50;
 
-  severeCurrentMixim(severeImpact);
-
-  const factor = Math.trunc(data.timeToElapse / 3);
-
-  const infectMixin = (obj) => {
+  const firstMixim = (obj) => {
     obj.infectionsByRequestedTime = obj.currentlyInfected * (2 ** factor);
     return false;
   };
+  firstMixim(impact);
+  firstMixim(severeImpact);
 
-  infectMixin(impact);
-  infectMixin(severeImpact);
-
-  const severeMixin = (obj) => {
-    obj.severeCasesByRequestedTime = 0.15 * obj.infectionsByRequestedTime;
-    return false;
+  const secondMixim = (obj) => {
+    obj.severeCasesByRequestedTime = Math.trunc(0.15 * obj.infectionsByRequestedTime);
   };
-  severeMixin(impact);
-  severeMixin(severeImpact);
+  secondMixim(impact);
+  secondMixim(severeImpact);
 
-  const bedMixin = (obj) => {
-    const number = Math.trunc((capacity
-      * data.totalHospitalBeds) - obj.severeCasesByRequestedTime);
-    obj.hospitalBedsByRequestedTime = number;
-    return false;
+  const thirdMixim = (obj) => {
+    obj.hospitalBedsByRequestedTime = Math.trunc((0.35 * data.totalHospitalBeds)
+    - obj.severeCasesByRequestedTime);
   };
-  bedMixin(impact);
-  bedMixin(severeImpact);
+  thirdMixim(impact);
+  thirdMixim(severeImpact);
 
-  const ICUMixin = (obj) => {
-    obj.casesForICUByRequestedTime = 0.05 * obj.infectionsByRequestedTime;
-    return false;
+  const fourthMixim = (obj) => {
+    obj.casesForICUByRequestedTime = Math.trunc(0.05 * obj.infectionsByRequestedTime);
   };
-  ICUMixin(impact);
-  ICUMixin(severeImpact);
+  fourthMixim(impact);
+  fourthMixim(severeImpact);
 
-
-  const ACMixin = (obj) => {
-    obj.casesForVentilatorsByRequestedTime = 0.02 * obj.infectionsByRequestedTime;
-    return false;
+  const fifthMixim = (obj) => {
+    obj.casesForVentilatorsByRequestedTime = Math.trunc(0.02 * obj.infectionsByRequestedTime);
   };
-  ACMixin(impact);
-  ACMixin(severeImpact);
+  fifthMixim(impact);
+  fifthMixim(severeImpact);
 
-  impact.dollarsInFlight = Math.trunc((impact.infectionsByRequestedTime
-    * data.region.avgDailyIncomePopulation
-    * data.region.avgDailyIncomeInUSD)
-    / data.timeToElapse);
-
-  severeImpact.dollarsInFlight = Math.trunc((severeImpact.infectionsByRequestedTime
-    * data.region.avgDailyIncomePopulation
-    * data.region.avgDailyIncomeInUSD)
-    / data.timeToElapse);
-
-
-  return {
-    data,
-    impact,
-    severeImpact
+  const sixthMixim = (obj) => {
+    obj.dollarsInFlight = Math.trunc((obj.infectionsByRequestedTime
+      * data.region.avgDailyIncomePopulation
+      * data.region.avgDailyIncomeInUSD) / days);
   };
+  sixthMixim(impact);
+  sixthMixim(severeImpact);
 };
-
 export default covid19ImpactEstimator;
