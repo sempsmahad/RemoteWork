@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="this is an interface for the COVID estimator">
+    <!-- <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    /> -->
+  </head>
+  <body class="row d-flex justify-content-center">
+    <div class="card text-center col-md-10 bg-light mb-3">
+      <div class="card-header">
+        <h3>COVID-19 ESTIMATOR</h3>
+      </div>
+      <div class="card-body ">
+        <form class="text-center">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="population"><strong>Population</strong></label>
+            <div class="col-sm-8">
+              <input
+              id="population"
+                class="form-control"
+                type="number"
+                name="population"
+                placeholder="population"
+                data-population
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="timeToElapse"><strong>Time To Elapse</strong></label>
+            <div class="col-sm-8">
+              <input
+              id="timeToElapse"
+                class="form-control"
+                type="number"
+                name="timeToElapse"
+                placeholder="timeToElapse"
+                data-time-to-elapse
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="reportedCases"><strong>Reported Cases</strong></label>
+            <div class="col-sm-8">
+              <input
+              id="reportedCases"
+                class="form-control"
+                type="number"
+                name="reportedCases"
+                placeholder="reportedCases"
+                data-reported-cases
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="totalHospitalBeds"><strong>Total Hospital Beds</strong></label>
+            <div class="col-sm-8">
+              <input
+              id="totalHospitalBeds"
+                class="form-control"
+                type="number"
+                name="totalHospitalBeds"
+                placeholder="totalHospitalBeds"
+                data-total-hospital-beds
+              />
+            </div>
+          </div>
+          
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="periodType"
+              ><strong>Period Type</strong></label
+            >
+            <div class="col-sm-8">
+              <select style="margin:15px;" id="periodType" class="form-control" data-period-type>
+                <option selected>Choose...</option>
+                <option value="days">days</option>
+                <option value="weeks">weeks</option>
+                <option value="months">months</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button
+              style="margin:15px;text-align:center;"
+              id="estimate"
+                type="button"
+                class="btn btn-primary"
+                value="estimate"
+                data-go-estimate
+              >
+                Estimate
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-muted">
+        by Facebook, Andela
+      </div>
+    </div>
+    <script type="module" src="./estimator.js">
+    
+      const population = document.querySelector('#population');
+      const timeToElapse = document.querySelector('#timeToElapse');
+      const reportedCases = document.querySelector('#reportedCases');
+      const totalHospitalBeds = document.querySelector('#totalHospitalBeds');
+      const periodType = document.querySelector('#periodType');
+      const button = document.querySelector('#estimate');
+
+      button.addEventListener('click', sendInfo);
+
+      const sendInfo = () => {
+
+        let datas = {
+          "periodType": periodType.options[periodType.selectedIndex].text,
+          "timeToElapse" : timeToElapse.value,
+          "reportedCases" : reportedCases.value,
+          "population" : population.value,
+          "totalHospitalBeds": totalHospitalBeds.value
+        };
+        covid19ImpactEstimator(datas);
+
+      };
+    </script>
+  </body>
+</html>
